@@ -81,7 +81,7 @@ object RomanNumerals {
   }
 
   /**
-    * This was a very quick attempt, but it is not refined and uses var's etc.
+    * This was a very quick attemt, but it is not refined and uses var's etc.
     * Folds are not the right approach
     */
   type RomanInfo = Tuple4[Int, String, Int, String]
@@ -139,18 +139,35 @@ object RomanNumerals {
     val numeralsFor100s = List("C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
     val numeralsFor10s = List("X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
     val numeralsFor1s = List("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
-    "" + {if (value>=1000) "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM".substring(0, value/1000) else ""} +
+    "M" * (value/1000) +
     {if (value%1000>99) numeralsFor100s(value%1000/100-1) else ""} +
       {if (value%100>9) numeralsFor10s(value%100/10-1) else ""} +
       {if (value%10>0) numeralsFor1s(value%10-1) else ""}
   }
 
-  def convert(value: Int) : String = {
-    (0 until value/1000).map( _ => "M").mkString +
-    ("","C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM").productElement(value%1000/100) +
-    ("","X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC").productElement(value%100/10) +
-    ("","I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX").productElement(value%10)
+
+  /**
+    * All credit to Andy Bowes for this one: https://gist.github.com/AndyBowes/3048075
+    */
+  def convertTailRecursive( number: Int) : String = {
+    toRomanNumerals( number, List( ("M", 1000),("CM", 900), ("D", 500), ("CD", 400), ("C", 100), ("XC", 90),
+      ("L", 50), ("XL",40), ("X", 10), ("IX", 9), ("V", 5), ("IV", 4), ("I", 1) ))
   }
 
+  private def toRomanNumerals( number: Int, digits: List[(String, Int)] ) : String = digits match {
+    case Nil => ""
+    case h :: t => h._1 * ( number / h._2 ) + toRomanNumerals( number % h._2, t )
+  }
+
+
+  /**
+    * My prefered solution is:
+    */
+  def convert(value: Int) : String = {
+    "M" * (value/1000) +
+      ("","C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM").productElement(value%1000/100) +
+      ("","X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC").productElement(value%100/10) +
+      ("","I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX").productElement(value%10)
+  }
 
 }
