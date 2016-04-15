@@ -1,9 +1,7 @@
 package com.jgibbons.romannumerals
 
 import org.scalatest.FlatSpec
-
 import scala.collection.immutable.HashMap
-
 
 class RomanNumeralsSpec extends FlatSpec {
   behavior of "RomanNumerals"
@@ -22,7 +20,6 @@ class RomanNumeralsSpec extends FlatSpec {
       1989->"MCMLXXXIX", 1990->"MCMXC",
       5989->"MMMMMCMLXXXIX", 5990->"MMMMMCMXC", 5994->"MMMMMCMXCIV", 5999->"MMMMMCMXCIX"
     )
-
 
     mapped.foreach { case (k:Int, v:String) =>
         assert( RomanNumerals.convertLongImperative(k)==v, s"convertImperative failed for $k")
