@@ -27,6 +27,7 @@ class RomanNumeralsSpec extends FlatSpec {
         assert( RomanNumerals.convertStrs(k)==v, s"convertStrs failed for $k")
         assert( RomanNumerals.convertMixed(k)==v, s"convertMixed failed for $k")
         assert( RomanNumerals.convertTailRecursive(k)==v, s"convertTailRecursive failed for $k")
+        assert( RomanNumerals.convertFoldAgain(k)==v, s"convertFoldAgain failed for $k")
         assert( RomanNumerals.convert(k)==v, s"convert failed for $k")
     }
   }

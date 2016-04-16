@@ -166,6 +166,17 @@ object RomanNumerals {
   }
 
 
+  def convertFoldAgain( value:Int) :String= {
+    val romanNumerals = List( 1000 -> "M", 900->"CM", 500->"D", 400->"CD",
+      100->"C", 90->"XC", 50-> "L", 40-> "XL",10-> "X", 9-> "IX",5-> "V", 4-> "IV",
+      1->"I")
+
+    romanNumerals.foldLeft(value, "") {( strVal:Tuple2[Int, String],  mapped:Tuple2[Int,String])=>
+      if (value==0) strVal
+      else (strVal._1%mapped._1, strVal._2+(mapped._2* (strVal._1 / mapped._1)))
+    }._2
+  }
+
   /**
     * My prefered solution is:
     */
@@ -175,5 +186,4 @@ object RomanNumerals {
       ("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC").productElement(value % 100 / 10) +
       ("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX").productElement(value % 10)
   }
-
 }
